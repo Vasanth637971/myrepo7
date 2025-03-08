@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organic Agro Seeds</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://images.unsplash.com/photo-1532421177513-46f9e8b6f599'); /* Background Image */
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            background-color: #2874f0;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-logo {
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            border-radius: 20px;
+            padding: 5px 10px;
+            width: 400px;
+            margin-right: 20px;
+        }
+
+        .search-bar input {
+            border: none;
+            padding: 10px;
+            width: 90%;
+            border-radius: 20px;
+            font-size: 16px;
+        }
+
+        .search-bar button {
+            background-color: #f5a623;
+            color: white;
+            padding: 10px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .search-bar button:hover {
+            background-color: #f39c12;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            font-size: 18px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* Login Page */
+        .login-container, .signup-container {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 40px;
+            border-radius: 10px;
+            width: 400px;
+            color: white;
+            text-align: center;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .login-container h2, .signup-container h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .login-container input, .signup-container input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            background-color: #fff;
+            color: #333;
+        }
+
+        .login-container button, .signup-container button {
+            background-color: #2874f0;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-container button:hover, .signup-container button:hover {
+            background-color: #1a5ab7;
+        }
+
+        /* Admin Dashboard */
+        .admin-dashboard {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .admin-dashboard table {
+            width: 80%;
+            margin: 20px 0;
+            border-collapse: collapse;
+        }
+
+        .admin-dashboard table, th, td {
+            border: 1px solid #ddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        .admin-dashboard th {
+            background-color: #2874f0;
+            color: white;
+        }
+
+        .admin-dashboard button {
+            background-color: #f5a623;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+
+        .admin-dashboard button:hover {
+            background-color: #f39c12;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <div class="header-logo">Organic Agro Seeds</div>
+        <div class="search-bar">
+            <input type="text" id="searchQuery" placeholder="Search for seeds, plants, and more" oninput="searchProducts()">
+            <button>Search</button>
+        </div>
+        <div class="nav-links">
+            <a href="javascript:void(0);" onclick="showLoginPage()">Login</a>
+            <a href="javascript:void(0);" onclick="showSignUpPage()">Sign Up</a>
+            <a href="javascript:void(0);" onclick="showAdminPage()">Admin</a>
+        </div>
+    </header>
+
+    <!-- Login Page -->
+    <div id="loginPage" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+        <div class="login-container">
+            <h2>Login to Seed Shop</h2>
+            <form onsubmit="return showSeedShop()">
+                <input type="text" id="username" placeholder="Username" value="user">
+                <input type="password" id="password" placeholder="Password" value="userpassword">
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Sign Up Page -->
+    <div id="signupPage" style="display: none; justify-content: center; align-items: center; height: 100vh;">
+        <div class="signup-container">
+            <h2>Sign Up to Seed Shop</h2>
+            <form onsubmit="return signUpUser()">
+                <input type="text" id="signUpName" placeholder="Name">
+                <input type="email" id="signUpEmail" placeholder="Email">
+                <input type="password" id="signUpPassword" placeholder="Password">
+                <button type="submit">Sign Up</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Login Page -->
+    <div id="adminPage" style="display: none;">
+        <div class="login-container">
+            <h2>Admin Login</h2>
+            <form onsubmit="return showAdminDashboard()">
+                <input type="text" id="adminUsername" placeholder="Admin Username" value="admin">
+                <input type="password" id="adminPassword" placeholder="Admin Password" value="admin123">
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="adminDashboard" class="admin-dashboard" style="display: none;">
+        <h2>Admin Dashboard</h2>
+        <h3>Customer Orders</h3>
+        <table id="customerOrdersTable">
+            <tr>
+                <th>Customer Name</th>
+                <th>Email</th>
+                <th>Mobile</th>
+                <th>Address</th>
+                <th>Product</th>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Main Content - Product List -->
+    <div id="mainPage" style="display: none;">
+        <div class="product-list" id="productList">
+            <!-- Products will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Organic Agro Seeds | <a href="#">About</a> | <a href="#">Contact</a> | <a href="#">Privacy</a></p>
+    </footer>
+
+    <script>
+        // Placeholder products
+        let products = [
+            {
+                name: "Tomato Seeds",
+                price: "?100",
+                description: "High-quality seeds for a great harvest!",
+                img: "https://www.urbanplant.in/cdn/shop/files/Tomatocopy.webp?v=1686578634.jpg"
+            },
+            {
+                name: "Cabbage Seeds",
+                price: "?80",
+                description: "Grow fresh and healthy cabbages with our premium seeds.",
+                img: "https://images.unsplash.com/photo-1604217169294-11bc2630f302"
+            },
+            {
+                name: "Carrot Seeds",
+                price: "?150",
+                description: "Get the best yield with our high-quality carrot seeds.",
+                img: "https://images.unsplash.com/photo-1606210383631-8c1b764e90ed"
+            }
+        ];
+
+        let customerOrders = [];
+        let users = [{ name: "user", email: "user@example.com", password: "userpassword" }];
+
+        // Show Login Page
+        function showLoginPage() {
+            document.getElementById('loginPage').style.display = 'flex';
+            document.getElementById('signupPage').style.display = 'none';
+            document.getElementById('mainPage').style.display = 'none';
+            document.getElementById('adminPage').style.display = 'none';
+            document.getElementById('adminDashboard').style.display = 'none';
+        }
+
+        // Show Sign Up Page
+        function showSignUpPage() {
+            document.getElementById('signupPage').style.display = 'flex';
+            document.getElementById('loginPage').style.display = 'none';
+        }
+
+        // Sign Up New User
+        function signUpUser() {
+            event.preventDefault();
+            const name = document.getElementById('signUpName').value;
+            const email = document.getElementById('signUpEmail').value;
+            const password = document.getElementById('signUpPassword').value;
+
+            if (name && email && password) {
+                users.push({ name, email, password });
+                alert("Sign Up successful! You can now log in.");
+                document.getElementById('signupPage').style.display = 'none';
+                document.getElementById('loginPage').style.display = 'flex';
+            } else {
+                alert("Please fill all fields.");
+            }
+            return false;
+        }
+
+        // Show Seed Shop after user login
+        function showSeedShop() {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // User login check
+            const user = users.find(user => user.name === username && user.password === password);
+            if (user) {
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('mainPage').style.display = 'block';
+                loadProducts();
+            } else {
+                alert("Invalid username or password");
+            }
+            return false;
+        }
+
+        // Load products into the page
+        function loadProducts() {
+            const productList = document.getElementById("productList");
+            productList.innerHTML = "";  // Clear previous products
+            products.forEach(product => {
+                const productDiv = document.createElement("div");
+                productDiv.classList.add("product-card");
+                productDiv.innerHTML = `
+                    <img src="${product.img}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <p>${product.description}</p>
+                    <p class="price">${product.price}</p>
+                    <button onclick="addToCart('${product.name}', '${product.price}')">Add to Cart</button>
+                    <button onclick="buyNow('${product.name}', '${product.price}')">Buy Now</button>
+                `;
+                productList.appendChild(productDiv);
+            });
+        }
+
+        // Admin Login Page
+        function showAdminPage() {
+            document.getElementById('adminPage').style.display = 'block';
+            document.getElementById('adminDashboard').style.display = 'none';
+        }
+
+        // Show Admin Dashboard after admin login
+        function showAdminDashboard() {
+            event.preventDefault();
+            const adminUsername = document.getElementById('adminUsername').value;
+            const adminPassword = document.getElementById('adminPassword').value;
+
+            // Admin login check
+            if (adminUsername === "admin" && adminPassword === "admin123") {
+                document.getElementById('adminPage').style.display = 'none';
+                document.getElementById('adminDashboard').style.display = 'block';
+                updateAdminOrdersTable();
+            } else {
+                alert("Invalid admin credentials");
+            }
+            return false;
+        }
+
+        // Update Admin Dashboard with new customer orders
+        function updateAdminOrdersTable() {
+            const table = document.getElementById("customerOrdersTable");
+            table.innerHTML = `
+                <tr>
+                    <th>Customer Name</th>
+                    <th>Email</th>
+                    <th>Mobile</th>
+                    <th>Address</th>
+                    <th>Product</th>
+                </tr>
+            `;  // Reset table headers
+
+            customerOrders.forEach(order => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${order.name}</td>
+                    <td>${order.email}</td>
+                    <td>${order.mobile}</td>
+                    <td>${order.address}</td>
+                    <td>${order.product}</td>
+                `;
+                table.appendChild(row);
+            });
+        }
+
+        // Add to Cart
+        function addToCart(name, price) {
+            alert(`${name} has been added to your cart.`);
+        }
+
+        // Buy Product Now (Prompt for customer details)
+        function buyNow(name, price) {
+            const customerDetails = promptForCustomerDetails(name, price);
+            if (customerDetails) {
+                customerOrders.push(customerDetails);
+                updateAdminOrdersTable();
+            }
+        }
+
+        // Prompt customer for details
+        function promptForCustomerDetails(productName, productPrice) {
+            const name = prompt("Enter your name:");
+            const email = prompt("Enter your email:");
+            const mobile = prompt("Enter your mobile number:");
+            const address = prompt("Enter your delivery address:");
+
+            if (name && email && mobile && address) {
+                return {
+                    name,
+                    email,
+                    mobile,
+                    address,
+                    product: productName,
+                    price: productPrice
+                };
+            } else {
+                alert("All details are required.");
+                return null;
+            }
+        }
+
+        // Search Products
+        function searchProducts() {
+            const searchQuery = document.getElementById('searchQuery').value.toLowerCase();
+            const filteredProducts = products.filter(product => product.name.toLowerCase().includes(searchQuery));
+
+            const productList = document.getElementById("productList");
+            productList.innerHTML = "";  // Clear previous products
+            filteredProducts.forEach(product => {
+                const productDiv = document.createElement("div");
+                productDiv.classList.add("product-card");
+                productDiv.innerHTML = `
+                    <img src="${product.img}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <p>${product.description}</p>
+                    <p class="price">${product.price}</p>
+                    <button onclick="addToCart('${product.name}', '${product.price}')">Add to Cart</button>
+                    <button onclick="buyNow('${product.name}', '${product.price}')">Buy Now</button>
+                `;
+                productList.appendChild(productDiv);
+            });
+        }
+    </script>
+
+</body>
+</html>
